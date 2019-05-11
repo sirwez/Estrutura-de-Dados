@@ -1,0 +1,15 @@
+Wpp
+22
+40
+Tlgrm
+4
+20
+Insta
+5
+50
+Twitch
+7
+70
+Tt
+9
+90

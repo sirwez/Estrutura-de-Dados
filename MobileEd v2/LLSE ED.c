@@ -6,7 +6,7 @@
 #define TAM 10
 
 int inst;
-int TotRun;
+int TRun;
 
 typedef struct
 {
@@ -27,6 +27,7 @@ typedef struct
 	int Disp;
 	No V[TAM];
 } LLSE;
+
 void gotoXY(int x, int y)
 {
 	COORD coord;
@@ -35,24 +36,89 @@ void gotoXY(int x, int y)
 	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
 }
 
-	void welcome()
+void welcome()
+{
+	int i;
+	printf("  _       __________    __________  __  _________\n");
+	printf(" | |     / / ____/ /   / ____/ __ \\/  |/  / ____/\n");
+	printf(" | | /| / / __/ / /   / /   / / / / /|_/ / __/   \n");
+	printf(" | |/ |/ / /___/ /___/ /___/ /_/ / /  / / /___   \n");
+	printf(" |__/|__/_____/_____/\\____/\\____/_/  /_/_____/   \n");
+	gotoXY(18, 7);
+	printf("loading");
+	for(i = 0; i < 3; i++)
 	{
-		int i;
-		printf("  _       __________    __________  __  _________\n");
-		printf(" | |     / / ____/ /   / ____/ __ \\/  |/  / ____/\n");
-		printf(" | | /| / / __/ / /   / /   / / / / /|_/ / __/   \n");
-		printf(" | |/ |/ / /___/ /___/ /___/ /_/ / /  / / /___   \n");
-		printf(" |__/|__/_____/_____/\\____/\\____/_/  /_/_____/   \n");
-		gotoXY(18, 7);
-		printf("loading");
-		for(i = 0; i < 3; i++)
-		{
-			printf(".");
-			Sleep(500);
-		}
+		printf(".");
+		Sleep(500);
 	}
+}
 
+void principal()
+{
 
+	printf(" ___  ___  ___  _____ _   _   ___  ___ _____ _   _ _   _ \n");
+	printf(" |  \\/  | / _ \\|_   _| \\ | |  |  \\/  ||  ___| \\ | | | | |\n");
+	printf(" | .  . |/ /_\\ \\ | | |  \\| |  | .  . || |__ |  \\| | | | |\n");
+	printf(" | |\\/| ||  _  | | | | . ` |  | |\\/| ||  __|| . ` | | | |\n");
+	printf(" | |  | || | | |_| |_| |\\  |  | |  | || |___| |\\  | |_| |\n");
+	printf(" \\_|  |_/\\_| |_/\\___/\\_| \\_/  \\_|  |_/\\____/\\_| \\_/\\___/ \n");
+	printf("\n\n ________________________________________________________\n |");
+	printf("                                                      |\n");
+	printf(" |                     1 ---> StoreED                   |\n");
+	printf(" |                     2 ---> MyAppsED                  |\n");
+	printf(" |                     3 ---> RunED                     |\n");
+	printf(" |                     0 ---> EXIT                      |\n");
+	printf(" |                                                      |\n");
+	printf(" |                                                      |\n");
+	printf(" |______________________________________________________|\n");
+	gotoXY(23, 16);
+	printf("ENTER OPTION:\n");
+	gotoXY(36, 16);
+
+}
+
+void menuRun()
+{
+
+	printf("\n\n ________________________________________________________\n |");
+	printf("                                                      |\n");
+	printf(" |           #Para interromper, Digite o ID:            |\n");
+	printf(" |            0 ---> Voltar ao Menu:                    |\n");
+	printf(" |______________________________________________________|\n");
+	gotoXY(23, 9);
+	printf("ENTER OPTION:\n");
+	gotoXY(36, 9);
+
+}
+
+void menuStore()
+{
+
+	printf("\n\n ________________________________________________________\n |");
+	printf("                                                      |\n");
+	printf(" |           #Para instalar, Digite o ID:               |\n");
+	printf(" |            0 ---> Voltar ao Menu:                    |\n");
+	printf(" |______________________________________________________|\n");
+	gotoXY(23, 18);
+	printf("ENTER OPTION:\n");
+	gotoXY(36, 18);
+
+}
+
+void menuApps()
+{
+
+	printf("\n\n ________________________________________________________\n |");
+	printf("                                                      |\n");
+	printf(" |             #Para Executar, Digite o ID:             |\n");
+	printf(" |              0 ---> Voltar ao Menu:                  |\n");
+	printf(" |             -2 ---> Desintalar                       |\n");
+	printf(" |______________________________________________________|\n");
+	gotoXY(23, 9);
+	printf("ENTER OPTION:\n");
+	gotoXY(36, 9);
+
+}
 
 int AlocaNo(LLSE Vet[])
 {
@@ -64,14 +130,15 @@ int AlocaNo(LLSE Vet[])
 	i = Vet[0].Disp;
 	Vet[0].Disp = Vet[0].V[Vet[0].Disp].prox;
 	return i;
+
 }
 
 void Inserir(APP Temp, LLSE vetor[])
 {
 	int i, op;
 	int indice;
-	int indice_anterior;
-	int indice_proximo;
+	int indant;
+	int indprox;
 
 	indice = AlocaNo(vetor);
 
@@ -115,15 +182,15 @@ void Inserir(APP Temp, LLSE vetor[])
 		if(Temp.tamanho >= vetor[0].V[i].Info.tamanho && vetor[0].V[i].prox == -1) // ultimo da lista
 		{
 			op = 2;
-			indice_anterior = i;
+			indant = i;
 			break;
 		}
 
 
 		if(Temp.tamanho >= vetor[0].V[i].Info.tamanho && Temp.tamanho <= vetor[0].V[vetor[0].V[i].prox].Info.tamanho)
 		{
-			indice_anterior = i;
-			indice_proximo = vetor[0].V[i].prox;
+			indant = i;
+			indprox = vetor[0].V[i].prox;
 			break;
 		}
 	}
@@ -150,7 +217,7 @@ void Inserir(APP Temp, LLSE vetor[])
 
 			vetor[0].V[indice].Info = Temp;
 
-			vetor[0].V[indice_anterior].prox = indice;
+			vetor[0].V[indant].prox = indice;
 
 			vetor[0].V[indice].prox = -1;
 
@@ -159,9 +226,9 @@ void Inserir(APP Temp, LLSE vetor[])
 		{
 			vetor[0].V[indice].Info = Temp;
 
-			vetor[0].V[indice_anterior].prox = indice;
+			vetor[0].V[indant].prox = indice;
 
-			vetor[0].V[indice].prox = indice_proximo;
+			vetor[0].V[indice].prox = indprox;
 		}
 	}
 }
@@ -173,7 +240,7 @@ void liberaNo(LLSE  vetor[], int ind)
 void Remover(int id, LLSE vetor[])
 {
 	int i;
-	int op, indice_anterior, indice_proximo;
+	int op, indant, indprox;
 
 	for(i = vetor[0].IL; i < TAM; i = vetor[0].V[i].prox)
 	{
@@ -197,7 +264,7 @@ void Remover(int id, LLSE vetor[])
 		if(id == vetor[0].V[vetor[0].V[i].prox].Info.id && vetor[0].V[vetor[0].V[i].prox].prox == -1)
 		{
 			op = 2;
-			indice_proximo = vetor[0].V[i].prox;
+			indprox = vetor[0].V[i].prox;
 			break;
 		}
 
@@ -205,10 +272,10 @@ void Remover(int id, LLSE vetor[])
 		if(id == vetor[0].V[i].Info.id && i != vetor[0].IL && vetor[0].V[i].prox != -1)
 		{
 
-			indice_proximo = vetor[0].V[i].prox;
+			indprox = vetor[0].V[i].prox;
 			break;
 		}
-		indice_anterior = i;
+		indant = i;
 	}
 
 	if(op == 1)
@@ -219,7 +286,7 @@ void Remover(int id, LLSE vetor[])
 	else if(op == 2) //no fim
 	{
 		vetor[0].V[i].prox = -1;
-		liberaNo(vetor, indice_proximo);
+		liberaNo(vetor, indprox);
 	}
 	else if(op == 3)
 	{
@@ -229,19 +296,19 @@ void Remover(int id, LLSE vetor[])
 	}
 	else if(op != 1 && op != 2 && op != 3) //no meio
 	{
-		vetor[0].V[indice_anterior].prox = indice_proximo;
+		vetor[0].V[indant].prox = indprox;
 		liberaNo(vetor, i);
 	}
 
 }
 
-void imprimir(LLSE Vetor[])
+int imprimir(LLSE Vetor[])
 {
 
-	int  k, l;
+	int  k, l, i = 0;
 	if(Vetor[0].V[Vetor[0].IL].Info.tamanho == 0)
 	{
-		return;
+		return 0;
 	}
 	k = Vetor[0].IL;
 	for(l = Vetor[0].IL; l < TAM + 3; l = Vetor[0].V[l].prox)
@@ -251,9 +318,11 @@ void imprimir(LLSE Vetor[])
 		{
 			break;
 		}
-		printf("        %d -- %dMB -- %s \n\n", Vetor[0].V[k].Info.id, Vetor[0].V[k].Info.tamanho, Vetor[0].V[k].Info.nome );
+		printf("    %d       %dMB       %s", Vetor[0].V[k].Info.id, Vetor[0].V[k].Info.tamanho, Vetor[0].V[k].Info.nome );
 		k = Vetor[0].V[k].prox;
+		i++;
 	}
+	return i;
 }
 void StoreEDF(LLSE VStore[], LLSE VMyapps[], int quant)
 {
@@ -266,15 +335,13 @@ void StoreEDF(LLSE VStore[], LLSE VMyapps[], int quant)
 	do
 	{
 		system("cls");
-		printf("\n\n    ________________________________________________________\n ");
-		printf("                                                      \n");
+		printf("\n\n    ______________________________________________\n ");
+		printf("   ID       TAM       NOME\n\n");
 		imprimir(VStore);
-		printf("                                                      \n");
-		printf("    ______________________________________________________\n");
-
-		printf("\n\n        Digite o ID ou 0 para sair:");
+		printf("    ____________________________________________\n");
+		menuStore();
 		scanf("%d", &op);
-
+		system("cls");
 
 		if(op == 0)
 		{
@@ -423,7 +490,7 @@ void Inicializar(LLSE StoreED[], LLSE MyAppsED[], LLSE RunED[])
 	RunED->IL = 0;
 }
 
-int EncontrarIndiceRemover(int app, LLSE vetor[])
+int IndRem(int app, LLSE vetor[])
 {
 	int i;
 
@@ -446,17 +513,22 @@ int EncontrarIndiceRemover(int app, LLSE vetor[])
 
 void MyAppsEDF(LLSE VMyapps[], LLSE VRun[], int quant)
 {
-	int  j, id, flag, app, aux;
+	int  j, id, it, app, aux;
 	APP Temp;
-
+	int p;
 	do
 	{
-		printf("ID:  Tamaho:  Nome:");
-		printf(" Digite um ID para executar um APP");
-		printf(" 0:Voltar ao menu principal");
-		printf(" -2:Desinstalar um APP");
+		system("cls");
+		menuApps();
 
-		imprimir(VMyapps);
+		printf("\n");
+		printf("   ##Apps Instalados:\n");
+		p = imprimir(VMyapps);
+		if(p == 0)
+		{
+			printf("   -Nenhum app instalado");
+		}
+		gotoXY(36, 9);
 		scanf("%d", &id);
 
 		switch(id)
@@ -465,14 +537,14 @@ void MyAppsEDF(LLSE VMyapps[], LLSE VRun[], int quant)
 			return;
 
 		case -2:
-
-			printf("Digite o ID do jogo para desisntalar:");
+			gotoXY(23, 9);
+			printf("Digite o ID do jogo para desinstalar:");
 			scanf("%d", &app);
 
 			do
 			{
 
-				aux = EncontrarIndiceRemover(app, VMyapps);
+				aux = IndRem(app, VMyapps);
 
 				if(aux != -1)
 				{
@@ -481,9 +553,9 @@ void MyAppsEDF(LLSE VMyapps[], LLSE VRun[], int quant)
 
 				if(aux == -1)
 				{
-
+					system("cls");
 					int tempo = clock();
-					printf("Digite um id valido!:");
+					printf("Digite um id valido!");
 					while(clock() - tempo < 1000);
 					scanf("%d", &app);
 				}
@@ -495,16 +567,16 @@ void MyAppsEDF(LLSE VMyapps[], LLSE VRun[], int quant)
 			inst--;
 
 
-			if(EncontrarIndiceRemover(app, VRun) == -1)
+			if(IndRem(app, VRun) == -1)
 			{
 				continue;
 			}
 			Remover(app, VRun);
-			TotRun--;
+			TRun--;
 			continue;
 		}
 
-		flag = 0;
+		it = 0;
 
 		for(j = VRun[0].IL; j < TAM; j = VRun[0].V[j].prox)
 		{
@@ -521,19 +593,20 @@ void MyAppsEDF(LLSE VMyapps[], LLSE VRun[], int quant)
 
 			if(VRun[0].V[j].Info.id == id)
 			{
+				system("cls");
 				int tempo = clock();
 				printf("App ja esta rodando!\n");
 				while(clock() - tempo < 2000);
-				flag = 1;
+				it = 1;
 			}
 		}
 
-		if(flag == 1)
+		if(it == 1)
 		{
 			continue;
 		}
 
-		flag = 0;
+		it = 0;
 
 		for(j = VMyapps[0].IL; j < TAM; j = VMyapps[0].V[j].prox)
 		{
@@ -544,48 +617,50 @@ void MyAppsEDF(LLSE VMyapps[], LLSE VRun[], int quant)
 
 			if(VMyapps[0].V[j].Info.id == id)
 			{
-				flag = 1;
+				it = 1;
 				Temp = VMyapps[0].V[j].Info;
 				Inserir(Temp, VRun);
-				TotRun++;
+				TRun++;
 				break;
 			}
 		}
 
-		if(flag == 0)
+		if(it == 0)
 		{
+			system("cls");
 			int tempo = clock();
-			printf("ID inexistente!Digite uma ID v%clida", 160);
+			printf("ID inexistente!\nDigite uma ID valida.");
 			while(clock() - tempo < 2000);
 			continue;
 		}
 
 	}
 	while(1);
+	system("cls");
 }
 
-void RunEDF(LLSE VRun[], int TotRun)
+void RunEDF(LLSE VRun[], int TRun)
 {
 	int x, id, verif;
-
+int p;
 	do
 	{
-		
-		printf("ID:  Tamaho:  Nome:");
-		imprimir(VRun);
-		
-		printf(">Digite um ID para interromper um APP");
-		
-		printf(">0:Voltar ao menu principal");
-		
+
+		system("cls");
+		menuRun();
+		printf("\n");
+		printf("   ##Apps Instalados:\n");
+		p = imprimir(VRun);
+		if(p == 0)
+		{
+			printf("   -Nenhum app rodando");
+		}
+		gotoXY(36, 9);
 		scanf("%d", &id);
 
-		switch(id)
+		if(id==0)
 		{
-
-		case 0:
 			return;
-
 		}
 
 		verif = 0;
@@ -601,13 +676,14 @@ void RunEDF(LLSE VRun[], int TotRun)
 			{
 				verif = 1;
 				Remover(id, VRun);
-				TotRun--;
+				TRun--;
 				break;
 			}
 		}
 
 		if(verif == 0)
 		{
+			system("cls");
 			int tempo = clock();
 			printf("ID inexistente!");
 			while(clock() - tempo < 2000);
@@ -619,10 +695,10 @@ void RunEDF(LLSE VRun[], int TotRun)
 
 }
 
-int main()
+void program()
 {
 	int quant;
-	char resp;
+	int resp;
 	LLSE StoreED[1];
 	LLSE MyAppsED[1];
 	LLSE RunED[1];
@@ -631,29 +707,38 @@ int main()
 
 	quant = LerArq(StoreED);
 	quant--;
-welcome();
+	welcome();
+	system("cls");
 	do
 	{
-
-		scanf(" %c", &resp);
-
+		system("cls");
+		principal();
+		scanf("%d", &resp);
+		system("cls");
 		switch(resp)
 		{
-		case 's':
+		case 1:
 			StoreEDF(StoreED, MyAppsED, quant);
 			break;
-		case 'm':
+		case 2:
 			MyAppsEDF(MyAppsED, RunED, quant);
 			break;
-		case 'r':
-			RunEDF(RunED, TotRun);
+		case 3:
+			RunEDF(RunED, TRun);
 			break;
-		case 'd':
-			printf("\t-=-=-=-=-MOBILE-ED FOI FINALIZADO!-=-=-=-=-");
-			return 0;
+		case 0:
+			gotoXY(40, 10);
+			printf("\t~#Finalizando");
+			int i;
+			for( i = 0; i < 3; i++)
+			{
+				printf(".");
+				Sleep(500);
+			}
+			return;
 		}
 
 	}
 	while(1);
-	return 0;
+	return;
 }
